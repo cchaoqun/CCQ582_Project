@@ -37,13 +37,13 @@ def verify():
     return jsonify(result)
 
 def valid_Ethereum(payload, signature, pk):
-    eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
-    if eth_account.Account.recover_message(eth_encoded_msg,signature=signature) == pk:
+    eth_encoded_msg = eth_account.messages.encode_defunct(text=json.dumps(payload))
+    if eth_account.Account.recover_message(eth_encoded_msg, signature=signature) == pk:
         return True
     return False
 
 def valid_Algorand(payload, signature, pk):
-    return algosdk.util.verify_bytes(payload.encode('utf-8'), signature, pk)
+    return algosdk.util.verify_bytes(json.dumps(payload).encode('utf-8'), signature, pk)
 
 if __name__ == '__main__':
     app.run(port='5002')
