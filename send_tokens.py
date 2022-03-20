@@ -25,9 +25,8 @@ def send_tokens( receiver_pk, tx_amount ):
 
     #Your code here
     # generate_acc()
-    # sender_sk = 'NmA4Dzj7kRIgcg49HsC8sHR9J1FpcBhr+lV9LI4tDqwNN6yScm4cb5coJ76QhSmG2QtEDc3hr8pJGBwfLva1xw=='
-    # sender_pk = 'BU32ZETSNYOG7FZIE67JBBJJQ3MQWRANZXQ27SSJDAOB6LXWWXDQXVXGRE'
-    sender_sk, sender_pk = "+BGLUlW6kQ1Bl77GxOPc4fgakcEU4/4oueynIDpQfGfj5JAyhmRn+B/bge1TcsXe4naOEMssSOZMgH4mbf8iHw==","4PSJAMUGMRT7QH63QHWVG4WF33RHNDQQZMWERZSMQB7CM3P7EIP52WTYUM"
+    sender_sk = 'NmA4Dzj7kRIgcg49HsC8sHR9J1FpcBhr+lV9LI4tDqwNN6yScm4cb5coJ76QhSmG2QtEDc3hr8pJGBwfLva1xw=='
+    sender_pk = 'BU32ZETSNYOG7FZIE67JBBJJQ3MQWRANZXQ27SSJDAOB6LXWWXDQXVXGRE'
     txn = transaction.PaymentTxn(sender_pk, tx_fee, first_valid_round, last_valid_round, gen_hash, receiver_pk,
                                  tx_amount, flat_fee=True)
 
