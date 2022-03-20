@@ -23,7 +23,7 @@ def generate_acc():
     print("Address:", address)
     print("Address:", addr)
     return private_key, address
-generate_acc()
+
 sender_sk = 't+uEbYWYTQomhqPE0jKXBhxnbKX0nF97GFfvrlEbjCq23b0IhQGk2qnTi5xvEqgLulgXc9MtT+YQJCBFkfJ/UQ=='
 sender_pk = 'W3O32CEFAGSNVKOTROOG6EVIBO5FQF3T2MWU7ZQQEQQELEPSP5IYXYZZ7E'
 def send_tokens( receiver_pk, tx_amount ):
@@ -34,7 +34,7 @@ def send_tokens( receiver_pk, tx_amount ):
     last_valid_round = params.last
 
     #Your code here
-
+    generate_acc()
     txn = transaction.PaymentTxn(sender_pk, tx_fee, first_valid_round, last_valid_round, gen_hash, receiver_pk,
                                  tx_amount, flat_fee=True)
 
