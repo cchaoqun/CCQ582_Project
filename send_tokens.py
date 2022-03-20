@@ -22,8 +22,8 @@ def generate_acc():
     print("Address:", address)
     return private_key, address
 # generate_acc()
-sender_sk = 'pwGLMZItAjMLhA7Y2H+XSMpEDUXTiPwksgnGpHTsUeRS7TviborG53sAwI7vqLCABr52JGk9arq2MFOsSwM84Q=='
-sender_pk = 'KLWTXYTORLDOO6YAYCHO7KFQQADL45RENE6WVOVWGBJ2YSYDHTQT3SWEME'
+sender_sk = 't+uEbYWYTQomhqPE0jKXBhxnbKX0nF97GFfvrlEbjCq23b0IhQGk2qnTi5xvEqgLulgXc9MtT+YQJCBFkfJ/UQ=='
+sender_pk = 'W3O32CEFAGSNVKOTROOG6EVIBO5FQF3T2MWU7ZQQEQQELEPSP5IYXYZZ7E'
 def send_tokens( receiver_pk, tx_amount ):
     params = acl.suggested_params()
     gen_hash = params.gh
