@@ -24,9 +24,9 @@ def send_tokens( receiver_pk, tx_amount ):
     last_valid_round = params.last
 
     #Your code here
-    generate_acc()
-    sender_sk = '123'
-    sender_pk = '321'
+    # generate_acc()
+    sender_sk = 'NmA4Dzj7kRIgcg49HsC8sHR9J1FpcBhr+lV9LI4tDqwNN6yScm4cb5coJ76QhSmG2QtEDc3hr8pJGBwfLva1xw=='
+    sender_pk = 'BU32ZETSNYOG7FZIE67JBBJJQ3MQWRANZXQ27SSJDAOB6LXWWXDQXVXGRE'
     txn = transaction.PaymentTxn(sender_pk, tx_fee, first_valid_round, last_valid_round, gen_hash, receiver_pk,
                                  tx_amount)
 
