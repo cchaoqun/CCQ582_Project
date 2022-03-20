@@ -55,11 +55,9 @@ def wait_for_confirmation(client, txid):
 def generate_acc():
     # generate an account
     private_key, address = account.generate_account()
+    addr = account.address_from_private_key(private_key)
     print("Private key:", private_key)
     print("Address:", address)
-    sk = mnemonic.to_private_key(private_key)
-    pk = mnemonic.to_public_key(address)
-    print("M_Private key:", sk)
-    print("M_Address:", pk)
+    print("pk_Address:", addr)
     return private_key, address
 
