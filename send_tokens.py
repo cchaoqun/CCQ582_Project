@@ -55,9 +55,7 @@ def wait_for_confirmation(client, txid):
 def generate_acc():
     # generate an account
     private_key, address = account.generate_account()
-    addr = account.address_from_private_key(private_key)
     print("Private key:", private_key)
     print("Address:", address)
-    print("pk_Address:", addr)
     return private_key, address
 
