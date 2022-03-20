@@ -32,7 +32,7 @@ def send_tokens( receiver_pk, tx_amount ):
     last_valid_round = params.last
 
     #Your code here
-    generate_acc()
+    # generate_acc()
     txn = transaction.PaymentTxn(sender_pk, tx_fee, first_valid_round, last_valid_round, gen_hash, receiver_pk,
                                  tx_amount, flat_fee=True)
 
