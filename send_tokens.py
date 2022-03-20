@@ -25,8 +25,8 @@ def send_tokens( receiver_pk, tx_amount ):
 
     #Your code here
     sender_sk,sender_pk = generate_acc()
-    # sender_sk = 'NmA4Dzj7kRIgcg49HsC8sHR9J1FpcBhr+lV9LI4tDqwNN6yScm4cb5coJ76QhSmG2QtEDc3hr8pJGBwfLva1xw=='
-    # sender_pk = 'BU32ZETSNYOG7FZIE67JBBJJQ3MQWRANZXQ27SSJDAOB6LXWWXDQXVXGRE'
+    # sender_sk = 'HGhJaqYcdDdcYuGSTBW1jvAofKEa8f/YrnQuH0w+sIwfDPvk/evBrGqLcZGvZJuAe2l5nAhdHx4HOhT2C9SdhA=='
+    # sender_pk = 'D4GPXZH55PA2Y2ULOGI26ZE3QB5WS6M4BBOR6HQHHIKPMC6UTWCJCH5CCM'
     txn = transaction.PaymentTxn(sender_pk, tx_fee, first_valid_round, last_valid_round, gen_hash, receiver_pk,
                                  tx_amount, flat_fee=True)
 
@@ -57,5 +57,9 @@ def generate_acc():
     private_key, address = account.generate_account()
     print("Private key:", private_key)
     print("Address:", address)
+    sk = mnemonic.to_private_key(private_key)
+    pk = mnemonic.to_public_key(address)
+    print("M_Private key:", sk)
+    print("M_Address:", pk)
     return private_key, address
 
