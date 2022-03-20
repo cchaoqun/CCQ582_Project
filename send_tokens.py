@@ -28,15 +28,11 @@ def send_tokens( receiver_pk, tx_amount ):
     sender_sk = 'NmA4Dzj7kRIgcg49HsC8sHR9J1FpcBhr+lV9LI4tDqwNN6yScm4cb5coJ76QhSmG2QtEDc3hr8pJGBwfLva1xw=='
     sender_pk = 'BU32ZETSNYOG7FZIE67JBBJJQ3MQWRANZXQ27SSJDAOB6LXWWXDQXVXGRE'
     txn = transaction.PaymentTxn(sender_pk, tx_fee, first_valid_round, last_valid_round, gen_hash, receiver_pk,
-                                 tx_amount)
+                                 tx_amount, flat_fee=True)
 
     signed_txn = txn.sign(sender_sk)
-
-    try:
-        txid = acl.send_transaction(signed_txn)
-        txinfo = wait_for_confirmation(acl, txid=txid)
-    except Exception as e:
-        print(e)
+    txid = acl.send_transaction(signed_txn)
+    txinfo = wait_for_confirmation(acl, txid=txid)
 
     return sender_pk, txid
 
