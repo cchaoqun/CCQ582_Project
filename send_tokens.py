@@ -15,7 +15,15 @@ headers = {
 
 acl = algod.AlgodClient(algod_token, algod_address, headers)
 min_balance = 100000 #https://developer.algorand.org/docs/features/accounts/#minimum-balance
-
+def generate_acc():
+    # generate an account
+    private_key, address = account.generate_account()
+    print("Private key:", private_key)
+    print("Address:", address)
+    return private_key, address
+generate_acc()
+sender_sk = 'DznBELttxeOCBkyen1r5I38G62gnO+f9hTOJJ94oSQ/SBHfP4VWr6yHYx4X6RZT5tk5IIm0i6wvyMwKoIFwXSw=='
+sender_pk = '2ICHPT7BKWV6WIOYY6C7URMU7G3E4SBCNUROWC7SGMBKQIC4C5FQQB33PM'
 def send_tokens( receiver_pk, tx_amount ):
     params = acl.suggested_params()
     gen_hash = params.gh
@@ -24,9 +32,7 @@ def send_tokens( receiver_pk, tx_amount ):
     last_valid_round = params.last
 
     #Your code here
-    generate_acc(receiver_pk)
-    sender_sk = 'DznBELttxeOCBkyen1r5I38G62gnO+f9hTOJJ94oSQ/SBHfP4VWr6yHYx4X6RZT5tk5IIm0i6wvyMwKoIFwXSw=='
-    sender_pk = '2ICHPT7BKWV6WIOYY6C7URMU7G3E4SBCNUROWC7SGMBKQIC4C5FQQB33PM'
+
     txn = transaction.PaymentTxn(sender_pk, tx_fee, first_valid_round, last_valid_round, gen_hash, receiver_pk,
                                  tx_amount, flat_fee=True)
 
@@ -52,12 +58,5 @@ def wait_for_confirmation(client, txid):
     print("Transaction {} confirmed in round {}.".format(txid, txinfo.get('confirmed-round')))
     return txinfo
 
-def generate_acc(receiver_pk):
-    # generate an account
-    private_key, address = account.generate_account()
-    addr = account.address_from_private_key(receiver_pk)
-    print("Private key:", private_key)
-    print("Address:", address)
-    print("Rece_Address:", addr)
-    return private_key, address
+
 
