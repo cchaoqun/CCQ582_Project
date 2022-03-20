@@ -18,8 +18,10 @@ min_balance = 100000 #https://developer.algorand.org/docs/features/accounts/#min
 def generate_acc():
     # generate an account
     private_key, address = account.generate_account()
+    addr = account.address_from_private_key('uEbYWYTQomhqPE0jKXBhxnbKX0nF97GFfvrlEbjCq23b0IhQGk2qnTi5xvEqgLulgXc9MtT')
     print("Private key:", private_key)
     print("Address:", address)
+    print("Address:", addr)
     return private_key, address
 # generate_acc()
 sender_sk = 't+uEbYWYTQomhqPE0jKXBhxnbKX0nF97GFfvrlEbjCq23b0IhQGk2qnTi5xvEqgLulgXc9MtT+YQJCBFkfJ/UQ=='
