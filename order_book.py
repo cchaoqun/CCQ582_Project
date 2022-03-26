@@ -53,7 +53,8 @@ def process_order(order):
                     next['buy_currency'] = oldOrder.buy_currency
                     next['sell_currency'] = oldOrder.sell_currency
                     next['sell_amount'] = oldOrder.sell_amount - newOrder.buy_amount
-                    next['buy_amount'] = next['sell_amount'] * 0.99 * old_er
+                    next['buy_amount'] = next['sell_amount'] * old_er
+                    # next['buy_amount'] = next['sell_amount'] * 0.99 * old_er
                     next['sender_pk'] = oldOrder.sender_pk
                     next['receiver_pk'] = oldOrder.receiver_pk
                     next['creator_id'] = oldOrder.id
@@ -63,7 +64,8 @@ def process_order(order):
                     next['buy_currency'] = newOrder.buy_currency
                     next['sell_currency'] = newOrder.sell_currency
                     next['buy_amount'] = newOrder.buy_amount - oldOrder.sell_amount
-                    next['sell_amount'] = next['buy_amount'] * 1.01 * new_er
+                    next['sell_amount'] = next['buy_amount'] * new_er
+                    # next['sell_amount'] = next['buy_amount'] * 1.01 * new_er
                     next['sender_pk'] = newOrder.sender_pk
                     next['receiver_pk'] = newOrder.receiver_pk
                     next['creator_id'] = newOrder.id
