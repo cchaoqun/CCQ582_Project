@@ -46,7 +46,6 @@ class TXO:
         time - (Datetime) the time of this transaction as a datetime object
         inputs - (TXO[]) a list of TXO objects
         '''
-        hash = tx.get('hash')
         vout = tx.get('vout')[n]
         amount = int(vout.get('value') * 100000000)
         public_key = vout.get('scriptPubKey')
@@ -58,11 +57,11 @@ class TXO:
     def get_inputs(self,d=1):
         tx = rpc_connection.getrawtransaction(self.tx_hash, True)
         vin = tx.get('vin')
-        for i in vin:
-            txid = i.get('txid')
+        for v in vin:
+            txid = v.get('txid')
             self.inputs.append(TXO.from_tx_hash(txid))
         if d > 1:
-            d -= 1
+            d = d - 1
             for input in self.inputs:
                 input.get_inputs(d=d)
 
