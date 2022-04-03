@@ -47,7 +47,7 @@ class TXO:
         inputs - (TXO[]) a list of TXO objects
         '''
         vout = tx.get('vout')[n]
-        deg = 10e8
+        deg = 100000000
         amount = int(vout.get('value') * deg)
         public_key = vout.get('scriptPubKey')
         addresses = public_key.get('addresses')
