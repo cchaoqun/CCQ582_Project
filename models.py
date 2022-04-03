@@ -25,6 +25,7 @@ class Order(Base):
     filled = Column(DateTime) #When was the order filled
     creator_id = Column(Integer,ForeignKey('orders.id')) #For derived orders: the order ID of the order that this order was derived from
     child = relationship("Order", foreign_keys='Order.creator_id', backref=backref('creator', remote_side=[id])) #set "child" and "creator" to be the derived Order and creating Order objects associated.
+
 class TX(Base):
     __tablename__ = 'txes'
     id = Column(Integer,primary_key=True)
@@ -39,6 +40,7 @@ class Log(Base):
     id = Column(Integer,primary_key=True)
     logtime = Column(DateTime,default=datetime.now())
     message = Column(String(1000))
+
 engine = create_engine('sqlite:///orders.db')
 Base.metadata.create_all(engine)
 
