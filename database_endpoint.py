@@ -91,6 +91,7 @@ def trade():
         sig = content['sig']
         payload = content['payload']
         sender_pk = payload['sender_pk']
+        receiver_pk = payload['receiver_pk']
         buy_currency = payload['buy_currency']
         sell_currency = payload['sell_currency']
         buy_amount = payload['buy_amount']
