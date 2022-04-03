@@ -98,14 +98,14 @@ def trade():
         platform = payload['platform']
 
         # verify sig for each platform
-        shouldOrder = False
         if platform == 'Algorand':
             shouldOrder = algosdk.util.verify_bytes(json.dumps(payload).encode('utf-8'), sig, sender_pk)
         elif platform == 'Ethereum':
-            shouldOrder = eth_account.Account.recover_message(eth_account.messages.encode_defunct(text=json.dumps(payload)), signature=sig) == sender_pk
+            msg = eth_account.messages.encode_defunct(text=json.dumps(payload))
+            shouldOrder = eth_account.Account.recover_message(msg, signature=sig) == sender_pk
 
         if shouldOrder:
-            order = Order(signature=sig, sender_pk=sender_pk, buy_currency=buy_currency, sell_currency=sell_currency, buy_amount=buy_amount, sell_amount=sell_amount)
+            order = Order(signature=sig, sender_pk=sender_pk, receiver_pk=receiver_pk, buy_currency=buy_currency, sell_currency=sell_currency, buy_amount=buy_amount, sell_amount=sell_amount)
             g.session.add(order)
             g.session.commit()
         return jsonify(shouldOrder)
