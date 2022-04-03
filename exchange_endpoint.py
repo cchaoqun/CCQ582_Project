@@ -132,7 +132,7 @@ def order_book():
         cur['buy_amount'] = order.buy_amount
         cur['sell_amount'] = order.sell_amount
         cur['signature'] = order.signature
-        cur['tx_id'] = order.tx_id
+        # cur['tx_id'] = order.tx_id
         res.append(cur)
     return json.dumps(res)
 
