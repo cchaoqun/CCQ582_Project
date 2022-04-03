@@ -8,14 +8,17 @@ def ZK_equality(G,H):
     r1 = Secret(utils.get_random_num(bits=128))
     r2 = Secret(utils.get_random_num(bits=128))
     m = Secret(utils.get_random_num(bits=128))
+    r1_value = r1.value
+    r2_value = r2.value
+    m_value = m.value
     #Generate a NIZK proving equality of the plaintexts
     '''
     C1C2D1D2=r1∗G=r1∗H+m∗G=r2∗G=r2∗H+m∗G
     '''
-    C1 = r1 * G
-    C2 = r1 * H + m * G
-    D1 = r2 * G
-    D2 = r2 * H + m * G
+    C1 = r1_value * G
+    C2 = r1_value * H + m_value * G
+    D1 = r2_value * G
+    D2 = r2_value * H + m_value * G
     stmt = DLRep(C1,r1*G) & DLRep(C2,r1*H+m*G) & DLRep(D1,r2*G) & DLRep(D2,r2*H+m*G)
     zk_proof = stmt.prove()
     #Return two ciphertexts and the proof
