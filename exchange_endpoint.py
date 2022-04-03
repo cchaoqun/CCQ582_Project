@@ -107,7 +107,7 @@ def trade():
             sell_amount = payload['sell_amount']
             tx_id = payload['tx_id']
             # TODO: Fill the order
-            order = Order(sender_pk=sender_pk,receiver_pk=receiver_pk,buy_currency=buy_currency,sell_currency=sell_currency,buy_amount=buy_amount,sell_amount=sell_amount,tx_id=tx_id)
+            order = Order(sender_pk=sender_pk, receiver_pk=receiver_pk, buy_currency=buy_currency, sell_currency=sell_currency, buy_amount=buy_amount, sell_amount=sell_amount, tx_id=tx_id)
             # TODO: commit
             g.session.add(order)
             g.session.commit()
@@ -124,7 +124,7 @@ def order_book():
     all_orders = g.session.query(Order).all()
     res = []
     for order in all_orders:
-        cur = dict()
+        cur = {}
         cur['sender_pk'] = order.sender_pk
         cur['receiver_pk'] = order.receiver_pk
         cur['buy_currency'] = order.buy_currency
