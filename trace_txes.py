@@ -46,7 +46,7 @@ class TXO:
         time - (Datetime) the time of this transaction as a datetime object
         inputs - (TXO[]) a list of TXO objects
         '''
-        tx_hash = tx.get('hash')
+        hash = tx.get('hash')
         vout = tx.get('vout')[n]
         amount = int(vout.get('value') * 100000000)
         public_key = vout.get('scriptPubKey')
