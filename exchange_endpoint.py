@@ -134,7 +134,8 @@ def order_book():
         cur['signature'] = order.signature
         # cur['tx_id'] = order.tx_id
         res.append(cur)
-    return json.dumps(res)
+    res_dict = {'data': res}
+    return json.dumps(res_dict)
 
 
 if __name__ == '__main__':
