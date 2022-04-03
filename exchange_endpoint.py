@@ -121,7 +121,7 @@ def trade():
 def order_book():
     # Your code here
     # Note that you can access the database session using g.session
-    all_orders = g.session.query(Order).all()
+    all_orders = g.session.query(Order)
     res = []
     for order in all_orders:
         cur = {}
