@@ -105,12 +105,43 @@ def trade():
             sell_currency = payload['sell_currency']
             buy_amount = payload['buy_amount']
             sell_amount = payload['sell_amount']
-            tx_id = payload['tx_id']
             # TODO: Fill the order
             order = Order(sender_pk=sender_pk, receiver_pk=receiver_pk, buy_currency=buy_currency, sell_currency=sell_currency, buy_amount=buy_amount, sell_amount=sell_amount, tx_id=tx_id)
             # TODO: commit
             g.session.add(order)
             g.session.commit()
+            matched_order = g.session.query(Order).filter(Order.filled == None, \
+                                                          Order.buy_currency == order.sell_currency, \
+                                                          Order.sell_currency == order.buy_currency, \
+                                                          Order.sell_amount / Order.buy_amount >= order.buy_amount / order.sell_amount).first()
+            # 3. if a match is found
+            if matched_order != None:
+                matched_order.filled = datetime.now()
+                order.filled = matched_order.filled
+
+                matched_order.counterparty_id = order.id
+                order.counterparty_id = matched_order.id
+                if order.buy_amount > matched_order.sell_amount:
+                    new_order = Order(sender_pk=order.sender_pk, receiver_pk=order.receiver_pk,
+                                      buy_currency=order.buy_currency, sell_currency=order.sell_currency,
+                                      buy_amount=order.buy_amount - matched_order.sell_amount, sell_amount=(order.buy_amount - matched_order.sell_amount) * order.sell_amount / order.buy_amount,
+                                      creator_id=order.id)
+                    print("partially filled, new_order.buy_amount > matched_order.sell amount, creator_id =",
+                          new_order.creator_id)
+                    g.session.add(new_order)
+                    g.session.commit()
+
+                if matched_order.buy_amount > order.sell_amount:
+                    new_order = Order(sender_pk=matched_order.sender_pk, receiver_pk=matched_order.receiver_pk,
+                                      buy_currency=matched_order.buy_currency,
+                                      sell_currency=matched_order.sell_currency,
+                                      buy_amount=matched_order.buy_amount - order.sell_amount, sell_amount=(matched_order.buy_amount - order.sell_amount) * matched_order.sell_amount / matched_order.buy_amount,
+                                      creator_id=matched_order.id)
+                    print("partially filled, matched_order.buy_amount>new_order.sell_amount, creator_id =",
+                          new_order.creator_id)
+
+                    g.session.add(new_order)
+                    g.session.commit()
         else:
             log_message(payload)
             return jsonify(False)
@@ -121,10 +152,10 @@ def trade():
 def order_book():
     # Your code here
     # Note that you can access the database session using g.session
-    all_orders = g.session.query(Order)
+    all_orders = g.session.query(Order).all()
     res = []
     for order in all_orders:
-        cur = dict()
+        cur = {}
         cur['sender_pk'] = order.sender_pk
         cur['receiver_pk'] = order.receiver_pk
         cur['buy_currency'] = order.buy_currency
