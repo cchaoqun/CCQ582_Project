@@ -124,7 +124,7 @@ def order_book():
     all_orders = g.session.query(Order)
     res = []
     for order in all_orders:
-        cur = {}
+        cur = dict()
         cur['sender_pk'] = order.sender_pk
         cur['receiver_pk'] = order.receiver_pk
         cur['buy_currency'] = order.buy_currency
