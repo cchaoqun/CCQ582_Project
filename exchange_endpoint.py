@@ -61,8 +61,8 @@ def fill_order(order, txes=[]):
     if matched != None:
         matched.filled = datetime.now()
         cur_order.filled = matched.filled
-        matched.counterparty_d = cur_order.id
-        cur_order.counterparty_d = matched.id
+        matched.counterparty_id = cur_order.id
+        cur_order.counterparty_id = matched.id
 
         if cur_order.buy_amount > matched.sell_amount:
             new_order = Order(sender_pk=cur_order.sender_pk,
