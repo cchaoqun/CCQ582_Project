@@ -347,8 +347,7 @@ def trade():
             get_tx=icl.search_transaction(order.tx_id)
             for tx in get_tx['transactions']:
                 if 'payment-transaction' in tx.keys():
-                    if tx['payment-transaction']['amount'] == order.sell_amount and tx['payment-transaction'][
-                        'receiver'] == order.receiver_pk:
+                    if tx['payment-transaction']['amount'] == order.sell_amount and tx['payment-transaction']['receiver'] == order.receiver_pk:
                         check_tx=True
         # 3b. Fill the order (as in Exchange Server II) if the order is valid
         if check_tx:
