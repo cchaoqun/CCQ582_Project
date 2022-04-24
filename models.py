@@ -24,7 +24,7 @@ class Order(Base):
     counterparty = relationship("Order",foreign_keys='Order.counterparty_id') #The Order object referenced by counterparty_id
     filled = Column(DateTime) #When was the order filled
     creator_id = Column(Integer,ForeignKey('orders.id')) #For derived orders: the order ID of the order that this order was derived from
-    child = relationship("Order", foreign_keys='Order.creator_id', backref=backref('creator', remote_side=[id])) #set "child" and "creator" to be the derived Order and creating Order objects associated. 
+    child = relationship("Order", foreign_keys='Order.creator_id', backref=backref('creator', remote_side=[id])) #set "child" and "creator" to be the derived Order and creating Order objects associated.
 
 class TX(Base):
     __tablename__ = 'txes'
@@ -43,3 +43,4 @@ class Log(Base):
 
 engine = create_engine('sqlite:///orders.db')
 Base.metadata.create_all(engine)
+
