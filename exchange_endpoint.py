@@ -12,11 +12,12 @@ from datetime import datetime
 import math
 import sys
 import traceback
+import random
 
 # TODO: make sure you implement connect_to_algo, send_tokens_algo, and send_tokens_eth
 from send_tokens import connect_to_algo, connect_to_eth, send_tokens_algo, send_tokens_eth
 
-from models import Base, Order, TX
+from models import Base, Order, TX, Log
 engine = create_engine('sqlite:///orders.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
@@ -109,12 +110,8 @@ def check_sig(payload,sig):
         #Check if signature is valid
         if eth_account.Account.recover_message(eth_encoded_msg,signature=sig) == payload['sender_pk']: 
             result = True #Should only be true if signature validates
-            verified_order = Order( sender_pk=payload['sender_pk'],receiver_pk=payload['receiver_pk'], buy_currency=payload['buy_currency'], sell_currency=payload['sell_currency'], buy_amount=payload['buy_amount'], sell_amount=payload['sell_amount'], signature=content['sig'] )
-            # fields = ['sender_pk','receiver_pk','buy_currency','sell_currency','buy_amount','sell_amount','signature']
-            # verified_order = Order(**{f:order[f] for f in fields})
-            # g.session.add(verified_order)
-            # g.session.commit()
-        else: 
+            verified_order = Order( sender_pk=payload['sender_pk'],receiver_pk=payload['receiver_pk'], buy_currency=payload['buy_currency'], sell_currency=payload['sell_currency'], buy_amount=payload['buy_amount'], sell_amount=payload['sell_amount'], signature=sig )
+        else:
             result = False
             log_message(payload)
             
@@ -125,11 +122,7 @@ def check_sig(payload,sig):
         if algosdk.util.verify_bytes(json.dumps(payload).encode('utf-8'),sig,payload['sender_pk']):
             result = True
             verified_order = Order( sender_pk=payload['sender_pk'],receiver_pk=payload['receiver_pk'], buy_currency=payload['buy_currency'], sell_currency=payload['sell_currency'], buy_amount=payload['buy_amount'], sell_amount=payload['sell_amount'], signature=sig )
-            # fields = ['sender_pk','receiver_pk','buy_currency','sell_currency','buy_amount','sell_amount','signature']
-            # verified_order = Order(**{f:order[f] for f in fields})
-            # g.session.add(verified_order)
-            # g.session.commit()
-        else: 
+        else:
             result = False
             log_message(payload)
 
@@ -144,8 +137,7 @@ def get_algo_keys():
 
 
 def get_eth_keys(filename = "eth_mnemonic.txt"):
-    w3 = Web3()
-    # TODO: Generate or read (using the mnemonic secret) 
+    # TODO: Generate or read (using the mnemonic secret)
     # the ethereum public/private keys
     eth_account.Account.enable_unaudited_hdwallet_features()
     acct, mnemonic = eth_account.Account.create_with_mnemonic()
@@ -154,15 +146,7 @@ def get_eth_keys(filename = "eth_mnemonic.txt"):
     return eth_sk, eth_pk
   
 def fill_order(order, txes=[]):
-    # TODO: 
-    # Match orders (same as Exchange Server II)
-    # Validate the order has a payment to back it (make sure the counterparty also made a payment)
-    # Make sure that you end up executing all resulting transactions!
 
-	# If your fill_order function is recursive, and you want to have fill_order return a list of transactions to be filled, 
-	# Then you can use the "txes" argument to pass the current list of txes down the recursion
-	# Note: your fill_order function is *not* required to be recursive, and it is *not* required that it return a list of transactions, 
-	# but executing a group of transactions can be more efficient, and gets around the Ethereum nonce issue described in the instructions
     new_order = Order( sender_pk=order['sender_pk'],receiver_pk=order['receiver_pk'], buy_currency=order['buy_currency'], sell_currency=order['sell_currency'], buy_amount=order['buy_amount'], sell_amount=order['sell_amount'] )
     fields = ['sender_pk','receiver_pk','buy_currency','sell_currency','buy_amount','sell_amount']
     new_order = Order(**{f:order[f] for f in fields})
@@ -170,7 +154,7 @@ def fill_order(order, txes=[]):
     g.session.add(new_order)
     g.session.commit()
     
-    existing_orders = session.query(Order).all()
+    existing_orders = g.session.query(Order).all()
     
     for order in existing_orders: 
         if (order.filled==None): 
@@ -251,7 +235,7 @@ def address():
 def trade():
     print( "In trade", file=sys.stderr )
     connect_to_blockchains()
-    get_keys()
+    # get_keys()
     if request.method == "POST":
         content = request.get_json(silent=True)
         columns = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "platform", "tx_id", "receiver_pk"]
